@@ -1,4 +1,4 @@
-package smtp
+package messageCreator
 
 func (m *Message) CreateMessage () ([]string, []byte) {
 	var msg []byte

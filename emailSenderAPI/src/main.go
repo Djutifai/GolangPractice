@@ -1,7 +1,7 @@
 package main
 
 import (
-	"emailSenderAPI/src/emailSender"
+	"emailSenderAPI/src/smtp/emailSender"
 	"github.com/gin-gonic/gin"
 
 	//"fmt"

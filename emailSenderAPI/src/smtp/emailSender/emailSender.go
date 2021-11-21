@@ -1,7 +1,7 @@
 package emailSender
 
 import (
-	"emailSenderAPI/src/smtp"
+	"emailSenderAPI/src/smtp/messageCreator"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/smtp"
@@ -9,7 +9,7 @@ import (
 )
 
 func PostMsg(c *gin.Context) {
-	var msg smtp.Message
+	var msg messageCreator.Message
 	msg.Unmarshal(c)
 	to, message := msg.CreateMessage()
 	err := sendEmail(to, message)
@@ -20,13 +20,13 @@ func PostMsg(c *gin.Context) {
 }
 
 func sendEmail(emails []string, message []byte) error {
-	file, err := os.Open("emailSender/config.json")
+	file, err := os.Open("src/smtp/emailSender/config.json")
 	if err != nil {
 		return fmt.Errorf("Error opening config json file\n")
 	}
 	defer file.Close()
 
-	var config smtp.Config
+	var config messageCreator.Config
 	err = config.Unmarshal(file)
 
 	// Sender email and password
