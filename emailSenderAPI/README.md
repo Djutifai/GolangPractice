@@ -2,12 +2,20 @@
 ## Send messages to different emails via API
 
 
+<<<<<<< HEAD
 ###### emailSenderApi is an API that let you to send an e-mail from/to any mail with subject and cc's.
 ###### To send e-mails, I used Simple Message Transport Protocol (smtp)
 
 ## Supported protocols
 
 - HTTP POST request (via [gin](https://github.com/gin-gonic/gin)) 
+=======
+###### emailSenderApi is an API that let you to send an e-mail from/to any mail with subject and cc's. 
+
+## Supported protocols
+
+- HTTP POST request (via smtp) 
+>>>>>>> 42260fbe7b0178dc8869f34fb7cc68db59cd1277
 
 ## Working on
 
