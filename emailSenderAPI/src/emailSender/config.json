@@ -1,0 +1,10 @@
+{
+  "senderConfig": {
+    "email": "smtpgolangproject@gmail.com",
+    "pass": "smtpproject123!"
+  },
+  "smtpConfig": {
+    "host": "smtp.gmail.com",
+    "port": "587"
+  }
+}
