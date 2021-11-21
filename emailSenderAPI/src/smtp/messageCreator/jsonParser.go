@@ -1,4 +1,4 @@
-package smtp
+package messageCreator
 
 import (
 	"encoding/json"
