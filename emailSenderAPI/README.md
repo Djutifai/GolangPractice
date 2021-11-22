@@ -20,7 +20,7 @@
 
 ## Usage
 
-###### emailSenderApi requires [Golang](https://golang.org/) v1.6+ to run.
+###### emailSenderApi requires [Golang](https://golang.org/) v1.17+ to run.
 
 ##### Install the dependencies and start the server.
 
