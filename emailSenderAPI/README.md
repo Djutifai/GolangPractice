@@ -8,10 +8,9 @@
 ## Supported protocols
 
 - HTTP POST request (via [gin](https://github.com/gin-gonic/gin))
-
+- gRpc
 ## Working on
 
-- gRpc
 - DataBase logging storage (PostgreSQL)
 
 ## Planned
@@ -29,7 +28,9 @@ cd emailSenderAPI/src
 go run main.go
 ```
 
-By default the server will be runned on localhost:8080
+##REST
+
+By default the RESTful server will be runned on localhost:8080
 
 #### For testing out I used Postman
 
@@ -53,5 +54,35 @@ Example:
  "message":"Our message",
  "copy": ["toWhom@gmail.com","shouldIcopy@gmail.com"]}
 ```
+##GRPC
 
+By default the Grpc server will be hosted on localhost:8081
+
+GRPC is using JSON as well as REST. Scheme is almost the same
+![img.png](images/img.png)
+
+| Field | Type | Meaning |
+| ------ | ------ | ------ |
+| from | string | From what e-mail the message should be sent |
+| to | string | To whom the e-mail should be sent |
+| subject | string| Subject of the e-mail |
+| **msg** |  string| Message of the e-mail |
+| **cc** | array of strings | To whom the e-mail should be cc'd |
+
+For testing out GRPC I used [evans](https://github.com/ktr0731/evans).
+
+```sh
+cd emailSenderApi
+evans pkg/API/gRpc/proto/parser.proto -p 8081
+----------------------------------------------
+                EVANS
+call Send
+'from (TYPE_STRING) =>' fromMail@mail.com
+'to (TYPE_STRING) =>' toMail@mail.com
+'subject (TYPE_STRING) =>' subject
+'msg (TYPE_STRING) =>' Message
+'<repeated> cc (TYPE_STRING) =>' toWhomCopy@mail.com
+
+CTRL-D to interrupt cc input prompt
+```
 ### Thanks a lot for your attention. Would be appreciated if you will leave any comment on what I should have done better.

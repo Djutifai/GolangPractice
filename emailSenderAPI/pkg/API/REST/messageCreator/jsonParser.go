@@ -10,9 +10,9 @@ import (
 
 type Config struct {
 	SenderConfig map[string]string `json:"senderConfig"`
-	SmtpConfig map[string]string `json:"smtpConfig"`
+	SmtpConfig   map[string]string `json:"smtpConfig"`
 }
-type Message struct {
+type JsonMessage struct {
 	From    string   `json:"from"`
 	To      string   `json:"to"`
 	Subject string   `json:"subject"`
@@ -20,7 +20,7 @@ type Message struct {
 	Copy    []string `json:"copy"`
 }
 
-func (c *Config) Unmarshal (file *os.File) error {
+func (c *Config) Unmarshal(file *os.File) error {
 	byte, err := ioutil.ReadAll(file)
 	if err != nil {
 		return fmt.Errorf("Error in reading file\n")
@@ -32,7 +32,7 @@ func (c *Config) Unmarshal (file *os.File) error {
 	return nil
 }
 
-func (m *Message) Unmarshal (c *gin.Context) error {
+func (m *JsonMessage) UnmarshalGin(c *gin.Context) error {
 	body := c.Request.Body
 	msg, err := ioutil.ReadAll(body)
 	if err != nil {
@@ -44,4 +44,3 @@ func (m *Message) Unmarshal (c *gin.Context) error {
 	}
 	return nil
 }
-
