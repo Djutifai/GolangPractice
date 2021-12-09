@@ -21,14 +21,14 @@ func main() {
 	go r.Run("localhost:8080")
 	lis, err := net.Listen("tcp", fmt.Sprintf("localhost:8081"))
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	} else {
 		grpcServer := grpc2.NewServer()
 		srv := &gRpc.GRPCServer{}
 		gRpc.RegisterSendMessageServer(grpcServer, srv)
 		fmt.Println("Running grpcServer")
 		if err = grpcServer.Serve(lis); err != nil {
-			log.Fatal(err)
+			log.Println(err)
 		}
 		fmt.Println("Grpc done")
 	}

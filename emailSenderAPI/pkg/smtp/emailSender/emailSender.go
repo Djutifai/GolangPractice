@@ -11,14 +11,15 @@ import (
 func SendEmail(emails []string, message []byte) error {
 	file, err := os.Open("../pkg/smtp/emailSender/config.json")
 	if err != nil {
-		return fmt.Errorf("Error opening config json file\n")
+		return fmt.Errorf("error opening config json file")
 	}
 	defer file.Close()
 
 	var config messageCreator.Config
 	err = config.Unmarshal(file)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		return err
 	}
 	// Sender email and password
 	email := config.SenderConfig["email"]
@@ -32,7 +33,8 @@ func SendEmail(emails []string, message []byte) error {
 	// sending our message to emails
 	err = smtp.SendMail(smtpHost+":"+smtpPort, auth, email, emails, message)
 	if err != nil {
-		return fmt.Errorf("Error sending email!\n")
+		log.Println(err)
+		return fmt.Errorf("error sending email")
 	}
 	return nil
 }

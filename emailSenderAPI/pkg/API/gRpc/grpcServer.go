@@ -15,16 +15,12 @@ func (g *GRPCServer) mustEmbedUnimplementedSendMessageServer() {
 func (g *GRPCServer) Send(ctx context.Context, msg *GMessage) (*Response, error) {
 	to, message := msg.CreateMessage()
 	err := emailSender.SendEmail(to, message)
-	var res *Response
 	if err != nil {
-		log.Fatal(err)
-		res.ErrCode = "500"
-		res.RespMsg = "There was an error sending your mail!\n"
+		log.Println(err)
+		return &Response{ErrCode: "500", RespMsg: "Error in sending email"}, err
 	} else {
-		res.ErrCode = "200"
-		res.RespMsg = "Message sent successfully!\n"
+		return &Response{ErrCode: "200", RespMsg: "Email has been successfully sent!"}, nil
 	}
-	return res, nil
 }
 
 func (x *GMessage) CreateMessage() ([]string, []byte) {
