@@ -9,26 +9,29 @@
 
 - HTTP POST request (via [gin](https://github.com/gin-gonic/gin))
 - gRpc
-## Working on
 
-- DataBase logging storage (PostgreSQL)
+## To-do
+- [ ] Docker
 
-## Planned
-
-- Docker
+## Done
+- [x] REST support
+- [x] gRpc support
+- [x] DataBase logging storage (PostgreSQL)
 
 ## Usage
 
 ###### emailSenderApi requires [Golang](https://golang.org/) v1.17+ to run.
-
+##### You will need to have a postgresql database named "logger" with user "server" on it
 ##### Install the dependencies and start the server.
 
 ```sh
 cd emailSenderAPI/src
+go mod download
 go run main.go
 ```
 
-##REST
+###### P.S.: Docker will do this for you when I will implement it
+## REST
 
 By default the RESTful server will be runned on localhost:8080
 
@@ -54,7 +57,7 @@ Example:
  "message":"Our message",
  "copy": ["toWhom@gmail.com","shouldIcopy@gmail.com"]}
 ```
-##GRPC
+## GRPC
 
 By default the Grpc server will be hosted on localhost:8081
 

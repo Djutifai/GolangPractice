@@ -4,8 +4,10 @@ go 1.17
 
 require (
 	github.com/gin-gonic/gin v1.7.4
+	github.com/jmoiron/sqlx v1.3.4
+	github.com/lib/pq v1.2.0
 	google.golang.org/grpc v1.42.0
-	google.golang.org/grpc/cmd/protoc-gen-go-grpc v1.1.0
+	google.golang.org/protobuf v1.25.0
 )
 
 require (
@@ -25,6 +27,5 @@ require (
 	golang.org/x/sys v0.0.0-20200323222414-85ca7c5b95cd // indirect
 	golang.org/x/text v0.3.2 // indirect
 	google.golang.org/genproto v0.0.0-20200526211855-cb27e3aa2013 // indirect
-	google.golang.org/protobuf v1.25.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )

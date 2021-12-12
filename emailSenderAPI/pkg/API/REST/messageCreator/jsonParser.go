@@ -1,4 +1,4 @@
-package messageCreator
+package restMessageCreator
 
 import (
 	"encoding/json"
@@ -17,10 +17,10 @@ type JsonMessage struct {
 	To      string   `json:"to"`
 	Subject string   `json:"subject"`
 	Message string   `json:"message"`
-	Copy    []string `json:"copy"`
+	Cc    []string 	 `json:"cc"`
 }
 
-func (c *Config) Unmarshal(file *os.File) error {
+func (c *Config) UnmarshalConfig(file *os.File) error {
 	byte, err := ioutil.ReadAll(file)
 	if err != nil {
 		return fmt.Errorf("error in reading file")

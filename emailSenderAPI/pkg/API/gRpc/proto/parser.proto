@@ -8,12 +8,12 @@ message GMessage {
   string from = 1;
   string to = 2;
   string subject = 3;
-  string msg = 4;
+  string message = 4;
   repeated string cc = 5;
 }
 
 message Response {
-  string errCode = 1;
+  string respCode = 1;
   string respMsg = 2;
 }
 
