@@ -2,12 +2,13 @@
 ## Send messages to different emails via API
 
 ## Used technologies:
-- ####Golang (gin + gRpc)
-- ####PostgreSQL
-- ####Docker
+- ### Golang (gin + gRpc)
+- ### PostgreSQL
+- ### Docker
 
+---
 
-##### emailSenderApi is an API that let you to send an e-mail from/to any mail with subject and cc's.
+##### emailSenderApi is an API that let you send an e-mail from/to any mail with subject and cc's.
 ##### To send e-mails, I used Simple Message Transport Protocol (smtp)
 
 ## Supported protocols
@@ -24,14 +25,14 @@
 - [x] Docker
 ## Usage
 
-###### emailSenderApi works with docker now! requires [Docker](https://www.docker.com/get-started/).
+##### emailSenderApi works with docker now! requires [Docker](https://www.docker.com/get-started/).
 ##### Install docker and then run in shell next command:
 
-###For the first launch:
+### For the first launch:
 ```sh
 docker-compose up --build
 ```
-###For every other:
+### For every other:
 ```sh
 docker-compose up
 ```
