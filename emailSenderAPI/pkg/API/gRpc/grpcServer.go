@@ -1,33 +1,38 @@
 package gRpc
 
 import (
-	"context"
-	"emailSenderAPI/pkg/DBlogging"
-	"emailSenderAPI/pkg/smtp/emailSender"
+	"fmt"
 	"github.com/jmoiron/sqlx"
+	grpc2 "google.golang.org/grpc"
 	"log"
+	"net"
 )
+
 // GRPCServer is a struct needed for our proto-generated files.
 // Contains with sqlx.DB
-type GRPCServer struct{
+type GRPCServer struct {
 	Db *sqlx.DB
 }
 
 func (g *GRPCServer) mustEmbedUnimplementedSendMessageServer() {
 	panic("implement me")
 }
-// Send creates smtp format message from GMessage, calls emailSender.SendEmail
-// and log to database with GMessage.PrepToLog.
-func (g *GRPCServer) Send(ctx context.Context, msg *GMessage) (*Response, error) {
-	to, message := msg.CreateMessage()
-	err := emailSender.SendEmail(to, message)
-	dbmsg, dbreq := msg.PrepToLog()
+
+// StartGrpcServer creates local GRPC server on 8081 port
+func StartGrpcServer(db *sqlx.DB) {
+	lis, err := net.Listen("tcp", fmt.Sprintf(":8081"))
+	defer lis.Close()
 	if err != nil {
-		log.Println("Error sending email with grpc!\n",err)
-		dbreq.ResponseCode = "400"
-		go DBlogging.LogRequest(g.Db, dbmsg, dbreq)
-		return &Response{RespCode: "400", RespMsg: "Error in sending email"}, err
+		log.Println(err)
+	} else {
+		grpcServer := grpc2.NewServer()
+		srv := &GRPCServer{Db: db}
+		RegisterSendMessageServer(grpcServer, srv)
+		defer grpcServer.Stop()
+		fmt.Println("Running grpcServer")
+		if err = grpcServer.Serve(lis); err != nil {
+			log.Println(err)
+		}
+		fmt.Println("Grpc done")
 	}
-	go DBlogging.LogRequest(g.Db, dbmsg, dbreq)
-	return &Response{RespCode: "200", RespMsg: "Email has been successfully sent!"}, nil
 }

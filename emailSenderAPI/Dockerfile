@@ -1,15 +1,22 @@
 # syntax=docker/dockerfile:1
 # IT IS NOT FINISHED YET
-FROM golang:1.17-alpine
+FROM golang:alpine as dev
 
-ENV GOPATH=/
+RUN apk update && apk add curl
+WORKDIR /usr/local/share/ca-certificates
+RUN apk add ca-certificates
+RUN /usr/sbin/update-ca-certificates
 
-COPY ./ ./
+WORKDIR /app/
 
+COPY go.mod .
+COPY go.sum .
 RUN go mod download
-RUN go build -o emailsender ./src/main.go
+
+COPY . .
+RUN go build -o api ./src/main.go
 
 EXPOSE 8080
 EXPOSE 8081
 
-CMD ["/emailsender"]
+CMD ["./api"]

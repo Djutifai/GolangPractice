@@ -1,0 +1,5 @@
+CREATE DATABASE logger
+    WITH
+    OWNER = server
+    ENCODING = 'UTF8'
+    CONNECTION LIMIT = -1

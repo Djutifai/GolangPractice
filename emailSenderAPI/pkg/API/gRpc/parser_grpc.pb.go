@@ -18,7 +18,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SendMessageClient interface {
-	Send(ctx context.Context, in *GMessage, opts ...grpc.CallOption) (*Response, error)
+	Post(ctx context.Context, in *POSTMessage, opts ...grpc.CallOption) (*POSTResponse, error)
 }
 
 type sendMessageClient struct {
@@ -29,9 +29,9 @@ func NewSendMessageClient(cc grpc.ClientConnInterface) SendMessageClient {
 	return &sendMessageClient{cc}
 }
 
-func (c *sendMessageClient) Send(ctx context.Context, in *GMessage, opts ...grpc.CallOption) (*Response, error) {
-	out := new(Response)
-	err := c.cc.Invoke(ctx, "/gRpc.SendMessage/Send", in, out, opts...)
+func (c *sendMessageClient) Post(ctx context.Context, in *POSTMessage, opts ...grpc.CallOption) (*POSTResponse, error) {
+	out := new(POSTResponse)
+	err := c.cc.Invoke(ctx, "/gRpc.SendMessage/Post", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -42,7 +42,7 @@ func (c *sendMessageClient) Send(ctx context.Context, in *GMessage, opts ...grpc
 // All implementations must embed UnimplementedSendMessageServer
 // for forward compatibility
 type SendMessageServer interface {
-	Send(context.Context, *GMessage) (*Response, error)
+	Post(context.Context, *POSTMessage) (*POSTResponse, error)
 	mustEmbedUnimplementedSendMessageServer()
 }
 
@@ -50,8 +50,8 @@ type SendMessageServer interface {
 type UnimplementedSendMessageServer struct {
 }
 
-func (UnimplementedSendMessageServer) Send(context.Context, *GMessage) (*Response, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Send not implemented")
+func (UnimplementedSendMessageServer) Post(context.Context, *POSTMessage) (*POSTResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Post not implemented")
 }
 func (UnimplementedSendMessageServer) mustEmbedUnimplementedSendMessageServer() {}
 
@@ -66,20 +66,20 @@ func RegisterSendMessageServer(s grpc.ServiceRegistrar, srv SendMessageServer) {
 	s.RegisterService(&SendMessage_ServiceDesc, srv)
 }
 
-func _SendMessage_Send_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GMessage)
+func _SendMessage_Post_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(POSTMessage)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SendMessageServer).Send(ctx, in)
+		return srv.(SendMessageServer).Post(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/gRpc.SendMessage/Send",
+		FullMethod: "/gRpc.SendMessage/Post",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SendMessageServer).Send(ctx, req.(*GMessage))
+		return srv.(SendMessageServer).Post(ctx, req.(*POSTMessage))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -92,8 +92,8 @@ var SendMessage_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*SendMessageServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Send",
-			Handler:    _SendMessage_Send_Handler,
+			MethodName: "Post",
+			Handler:    _SendMessage_Post_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -1,0 +1,32 @@
+version: '3.5'
+services:
+  app:
+    build:
+      dockerfile: Dockerfile
+      context: .
+      target: dev
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    links:
+      - postgres
+    depends_on:
+      - postgres
+    environment:
+      DB_USER: "server"
+      DB_PASS: "server"
+      DB: "logger"
+    container_name: api
+
+  postgres:
+    restart: always
+    image: postgres:alpine
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: 'server'
+      POSTGRES_PASS: 'server'
+      POSTGRES_DB: 'logger'
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+    volumes:
+      - ./DBlogging/:/docker-entrypoint-initdb.d/

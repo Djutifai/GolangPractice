@@ -1,7 +1,7 @@
 {
   "senderConfig": {
     "email": "smtpgolangproject@gmail.com",
-    "pass": "smtpproject123!"
+    "pass": "mynewtestpass123!"
   },
   "smtpConfig": {
     "host": "smtp.gmail.com",

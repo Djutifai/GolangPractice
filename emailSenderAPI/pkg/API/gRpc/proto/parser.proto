@@ -4,7 +4,7 @@ option go_package="pkg/API/gRpc";
 
 package gRpc;
 
-message GMessage {
+message POSTMessage {
   string from = 1;
   string to = 2;
   string subject = 3;
@@ -12,11 +12,31 @@ message GMessage {
   repeated string cc = 5;
 }
 
-message Response {
+message POSTResponse {
   string respCode = 1;
   string respMsg = 2;
 }
+/*
+message GETMessage {
+  string from_mail = 1;
+}
+
+message GETResponse {
+  string RespCode = 1;
+  string RespMessage = 2;
+}
+message GETResponse {
+  string Code = 1;
+  string From = 2;
+  string To = 3;
+  string Subject = 4;
+  repeated string Cc = 5;
+  string Protocol = 6;
+  string MessageResponseCode = 7;
+  string CreatedAt = 8;
+}*/
 
 service SendMessage {
-  rpc Send(GMessage) returns (Response);
+  rpc Post(POSTMessage) returns (POSTResponse);
+ //rpc Get(GETMessage) returns (GETResponse);
 }

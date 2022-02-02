@@ -1,53 +1,58 @@
 # Email Sender API
 ## Send messages to different emails via API
 
+## Used technologies:
+- ####Golang (gin + gRpc)
+- ####PostgreSQL
+- ####Docker
+
 
 ##### emailSenderApi is an API that let you to send an e-mail from/to any mail with subject and cc's.
 ##### To send e-mails, I used Simple Message Transport Protocol (smtp)
 
 ## Supported protocols
 
-- HTTP POST request (via [gin](https://github.com/gin-gonic/gin))
-- gRpc
+- HTTP **POST/GET** request (via [gin](https://github.com/gin-gonic/gin))
+- gRpc **POST/GET** call
 
 ## To-do
-- [ ] Docker
-
+- [ ] gRpc GET service 
 ## Done
-- [x] REST support
-- [x] gRpc support
+- [x] REST support (POST, GET)
+- [x] gRpc support (POST)
 - [x] DataBase logging storage (PostgreSQL)
-
+- [x] Docker
 ## Usage
 
-###### emailSenderApi requires [Golang](https://golang.org/) v1.17+ to run.
-##### You will need to have a postgresql database named "logger" with user "server" on it
-##### Install the dependencies and start the server.
+###### emailSenderApi works with docker now! requires [Docker](https://www.docker.com/get-started/).
+##### Install docker and then run in shell next command:
 
+###For the first launch:
 ```sh
-cd emailSenderAPI/src
-go mod download
-go run main.go
+docker-compose up --build
+```
+###For every other:
+```sh
+docker-compose up
 ```
 
-###### P.S.: Docker will do this for you when I will implement it
-## REST
+## RPC
 
-By default the RESTful server will be runned on localhost:8080
+By default the HTTP server will be available on localhost:8080
 
 #### For testing out I used Postman
 
-You can use API via link localhost:8080/sendmsg
+You can use **POST** via link localhost:8080/sendMsg
 
 ##### You need to send JSON in the next format:
 
-| Field | Type | Meaning |
-| ------ | ------ | ------ |
-| from | string | From what e-mail the message should be sent |
-| to | string | To whom the e-mail should be sent |
-| subject | string| Subject of the e-mail |
-| message |  string| Message of the e-mail |
-| copy | array of strings | To whom the e-mail should be cc'd |
+| Field   | Type             | Meaning                                     |
+|---------|------------------|---------------------------------------------|
+| from    | string           | From what e-mail the message should be sent |
+| to      | string           | To whom the e-mail should be sent           |
+| subject | string           | Subject of the e-mail                       |
+| message | string           | Message of the e-mail                       |
+| copy    | array of strings | To whom the e-mail should be cc'd           |
 
 Example:
 ```sh
@@ -57,29 +62,37 @@ Example:
  "message":"Our message",
  "copy": ["toWhom@gmail.com","shouldIcopy@gmail.com"]}
 ```
+
+You can use **GET** via link localhost:8080/getMsg/*fromMail*  
+"fromMail" is a "from" mail, that is getting used as a key in query to our database.
+GET will return every message that was sent by that mail
+
 ## GRPC
 
-By default the Grpc server will be hosted on localhost:8081
+By default the Grpc server will be available on localhost:8081
 
-GRPC is using JSON as well as REST. Scheme is almost the same
+GRPC is having json-like fields as well as RPC. Fields are almost the same
 ![img.png](images/img.png)
 
-| Field | Type | Meaning |
-| ------ | ------ | ------ |
-| from | string | From what e-mail the message should be sent |
-| to | string | To whom the e-mail should be sent |
-| subject | string| Subject of the e-mail |
-| **msg** |  string| Message of the e-mail |
-| **cc** | array of strings | To whom the e-mail should be cc'd |
+| Field   | Type             | Meaning                                     |
+|---------|------------------|---------------------------------------------|
+| from    | string           | From what e-mail the message should be sent |
+| to      | string           | To whom the e-mail should be sent           |
+| subject | string           | Subject of the e-mail                       |
+| **msg** | string           | Message of the e-mail                       |
+| **cc**  | array of strings | To whom the e-mail should be cc'd           |
 
 For testing out GRPC I used [evans](https://github.com/ktr0731/evans).
 
+P.S. GET via gRpc is almost done!
 ```sh
 cd emailSenderApi
 evans pkg/API/gRpc/proto/parser.proto -p 8081
 ----------------------------------------------
                 EVANS
-call Send
+                
+          ------POST------
+call Post
 'from (TYPE_STRING) =>' fromMail@mail.com
 'to (TYPE_STRING) =>' toMail@mail.com
 'subject (TYPE_STRING) =>' subject
@@ -88,4 +101,5 @@ call Send
 
 CTRL-D to interrupt cc input prompt
 ```
+
 ### Thanks a lot for your attention. Would be appreciated if you will leave any comment on what I should have done better.
